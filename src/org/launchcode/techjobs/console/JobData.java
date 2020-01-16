@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -51,7 +52,9 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        ArrayList<HashMap<String, String>> allJobsCopy = allJobs;
+
+        return allJobsCopy;
     }
 
     /**
@@ -76,7 +79,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value)) {
                 jobs.add(row);
             }
         }
@@ -84,6 +87,26 @@ public class JobData {
         return jobs;
     }
 
+
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        //load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            for (Map.Entry<String, String> item : row.entrySet()) {
+                if (item.getValue().toLowerCase().contains(value)) {
+                    jobs.add(row);
+                }
+            }
+        }
+
+        return jobs;
+
+
+    }
     /**
      * Read in data from a CSV file and store it in a list
      */
